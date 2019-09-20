@@ -1,24 +1,14 @@
 import React from 'react';
-import logo from '../img/logo.svg';
 import '../css/App.css';
+import Timer from '../front_end/Timer'
+import SimpleTable from "../front_end/SimpleTableClass";
+import EnhancedTableHead from "../front_end/TableHead";
+import MaterialTableDemo from "../front_end/MaterialTable";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <MaterialTableDemo/>
     </div>
   );
 }
