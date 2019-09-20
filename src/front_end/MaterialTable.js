@@ -1,12 +1,9 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import {
-    baseUrl,
     getAllWorkouts,
-    getAllWorkoutsPath,
-    insertWorkoutsPath,
     addWorkout,
-    useFetch, removeWorkout
+    removeWorkout
 } from "../server/BackEndEndpoints";
 
 const mockData = [
