@@ -2,7 +2,7 @@ export const baseUrl = "http://localhost:8080/";
 export const getAllExercisesPath = "exercise/getAll";
 export const insertExercisesPath = "exercise/add";
 export const getAllExercisesByWorkoutId = "exercise/getAllExerciseByWorkoutID";
-export const deleteExercise = "exercise/delete";
+export const deleteExercise = "exercise/delete/";
 
 function getExercises(idWorkout, pageSize, page) {
     let url = baseUrl + getAllExercisesByWorkoutId +
@@ -27,7 +27,18 @@ function addExercise(exercise, workoutId){
     }).then(response => { return response.json(); }); // parses JSON response into native JavaScript objects
 }
 
-export { getExercises, addExercise };
+function removeExercise(id){
+    let url = baseUrl + deleteExercise + id;
+    return fetch(url, {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => { return response.json(); }); // parses JSON response into native JavaScript objects
+}
+
+export { getExercises, addExercise, removeExercise };
 
 
 

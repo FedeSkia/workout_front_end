@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
 import MaterialTable from 'material-table';
-import {addWorkout, removeWorkout} from "../server/WorkoutEndpoints";
-import {addExercise, getExercises} from "../server/ExerciseEndpoints";
+import {addExercise, getExercises, removeExercise} from "../server/ExerciseEndpoints";
 
 const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'},
-                  {title : 'reps', field: 'repetitions'}, {title: 'sets', field: 'sets'},
-                  {title : 'exercise_id', field: 'exercise_id'}
+                  {title : 'reps', field: 'repetitions'}, {title: 'sets', field: 'sets'}
                 ];
 
 function WorkoutDetailTable(workoutId) {
@@ -41,7 +39,7 @@ function WorkoutDetailTable(workoutId) {
                 editable= {{
                     onRowAdd: newData =>
                         new Promise((resolve, reject) => {
-                            addExercise(newData, workoutId.workout_id).then(result =>
+                            addExercise(newData, workoutId.workoutId).then(result =>
                                 resolve(result)
                             );
                         }),
@@ -51,7 +49,7 @@ function WorkoutDetailTable(workoutId) {
                         }),
                     onRowDelete: oldData =>
                         new Promise((resolve, reject) => {
-                            // addExercise(oldData.exercise_id).then(result => resolve());
+                            removeExercise(oldData.exercise_id).then(result => resolve());
                         })
                 }}
             />
