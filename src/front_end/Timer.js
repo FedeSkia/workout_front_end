@@ -1,61 +1,38 @@
-import Button from '@material-ui/core/Button';
-const React = require('react');
-const ms = require('pretty-ms');
+import React from 'react';
+import { useTimer } from 'react-timer-hook';
 
+function MyTimer({expiryTimestamp, workoutChosen, expiryTimestampRestart}) {
 
-class Timer extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            time: 0,
-            isOn: false,
-            start: 0
-        };
-        this.startTimer = this.startTimer.bind(this);
-        this.stopTimer = this.stopTimer.bind(this);
-        this.resetTimer = this.resetTimer.bind(this);
+    const {
+        seconds,
+        minutes,
+        hours,
+        days,
+        start,
+        pause,
+        resume,
+        restart,
+    } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+
+    function restartExpirtyTimestamo(){
+        let date = new Date();
+        date.setSeconds(date.getSeconds() + expiryTimestampRestart);
+        return date;
     }
 
-
-    startTimer() {
-        this.setState({
-            isOn: true,
-            time: this.state.time,
-            start: Date.now() - this.state.time
-        });
-        this.timer = setInterval(() => this.setState({
-            time: Date.now() - this.state.start
-        }), 1);
-    }
-
-    stopTimer() {
-        this.setState({isOn: false});
-        clearInterval(this.timer)
-    }
-
-    resetTimer() {
-        this.setState({time: 0, isOn: false})
-    }
-
-    render() {
-        let start = (this.state.time === 0) ?
-            <Button  onClick={this.startTimer}>start</Button> : null;
-        let stop = (this.state.time === 0 || !this.state.isOn) ? null :
-            <Button onClick={this.stopTimer}>stop</Button>;
-        let resume = (this.state.time === 0 || this.state.isOn) ? null :
-            <Button onClick={this.startTimer}>resume</Button>;
-        let reset = (this.state.time === 0 || this.state.isOn) ? null :
-            <Button onClick={this.resetTimer}>reset</Button>;
-
-        return(
-            <div>
-                <h3>timer: {ms(this.state.time)}</h3>
-                {start}
-                {resume}
-                {stop}
-                {reset}
+    return (
+        <div style={{textAlign: 'center'}}>
+            <h1>Exercise timer</h1>
+            <div style={{fontSize: '100px'}}>
+               <span>{minutes}</span>:<span>{seconds}</span>
             </div>
-    )}
+            <button onClick={start}>Start</button>
+            <button onClick={pause}>Pause</button>
+            <button onClick={resume}>Resume</button>
+            <button onClick={() => {
+                restart(restartExpirtyTimestamo());
+            }}>restart</button>
+        </div>
+    );
 }
-
-export default Timer;
+export default MyTimer;

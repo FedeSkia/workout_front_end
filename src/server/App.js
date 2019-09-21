@@ -3,7 +3,7 @@ import '../css/App.css';
 import WorkoutTable from "../front_end/WOTable";
 import WorkoutDetailTable from "../front_end/WorkoutDetail";
 import CreateMyToolbar from "../front_end/component/MyToolBar";
-import Timer from "../front_end/Timer";
+import MyTimer from "../front_end/Timer";
 
 function App() {
     const [pageToDisplay, setPageToDisplay] = useState('home');
@@ -42,6 +42,12 @@ function App() {
         setPageToDisplay('startWorkout');
     }
 
+    function setTimerMaxDuration(maxDurationSec){
+        let date = new Date();
+        date.setSeconds(date.getSeconds() + maxDurationSec);
+        return date;
+    }
+
   return (
       <div className="App">
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
@@ -58,7 +64,10 @@ function App() {
               {(pageToDisplay=== 'workoutDetail' && workoutChosen != null) &&
               <WorkoutDetailTable workout={workoutChosen}/> }
               {(pageToDisplay=== 'startWorkout' && workoutChosen != null) &&
-                <Timer workoutChosen={workoutChosen}/>
+                <MyTimer expiryTimestamp={setTimerMaxDuration(30)}
+                         workoutChosen={workoutChosen}
+                         expiryTimestampRestart={30}
+                />
               }
           </div>
       </div>
