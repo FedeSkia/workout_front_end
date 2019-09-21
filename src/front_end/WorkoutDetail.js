@@ -48,7 +48,7 @@ function WorkoutDetailTable(workout) {
                         }),
                     onRowUpdate: (newData, oldData) =>
                         new Promise((resolve, reject) => {
-                            addExercise(newData).then(result => resolve());
+                            addExercise(newData, workout.workout.workout_id).then(result => resolve());
                         }),
                     onRowDelete: oldData =>
                         new Promise((resolve, reject) => {
