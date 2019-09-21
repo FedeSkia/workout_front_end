@@ -12,21 +12,6 @@ function getAllWorkouts(query){
     return fetch(url).then(response => response.json())
 }
 
-function useFetch(url) {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    async function fetchUrl() {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-        setLoading(false);
-    }
-    useEffect(() => {
-        fetchUrl();
-    }, []);
-    return [data, loading];
-}
-
 function addWorkout(data) {
     let url = baseUrl + insertWorkoutsPath;
     return fetch(url, {
@@ -40,7 +25,7 @@ function addWorkout(data) {
 }
 
 function removeWorkout(id){
-    return fetch(baseUrl + deleteWorkout + "?id=" + id, {
+    return fetch(baseUrl + deleteWorkout + "&id=" + id, {
         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         headers: {
@@ -49,7 +34,7 @@ function removeWorkout(id){
     }).then(response => response.json()); // parses JSON response into native JavaScript objects
 }
 
-export { useFetch, addWorkout, getAllWorkouts, removeWorkout };
+export { addWorkout, getAllWorkouts, removeWorkout };
 
 
 

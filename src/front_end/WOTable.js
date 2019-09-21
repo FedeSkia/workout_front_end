@@ -1,24 +1,37 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MaterialTable from 'material-table';
 import {
     getAllWorkouts,
     addWorkout,
     removeWorkout
-} from "../server/BackEndEndpoints";
+} from "../server/WorkoutEndpoints";
 
-const mockData = [
-    {name: "Name 1", description: " description"},
-    {name: "Name 2", description: "Description 1"}];
+const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'}];
 
-const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'}]
+function WorkoutTable(navigateToWorkoutDetail) {
 
-function MaterialTableDemo() {
+    useEffect(() => {
+        console.log('WorkoutTable -> useEffect');}, []);
+
     return (
         <div>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
             <MaterialTable
                 title="Workouts Summary"
                 columns={columns}
+                actions={[
+                    {
+                        icon: 'navigate_next',
+                        tooltip: 'Go to workout',
+                        onClick: (event, rowData) => {
+                            console.log(rowData);
+                            console.log(event);
+                            navigateToWorkoutDetail.navigateToWorkoutDetail(rowData.workout_id);
+                        }
+                    }
+                ]}
+                options={{
+                    paging: true
+                }}
                 data={query =>
                     new Promise((resolve, reject) => {
                       getAllWorkouts(query).then(result => {
@@ -49,4 +62,4 @@ function MaterialTableDemo() {
     );
 }
 
-export default MaterialTableDemo;
+export default WorkoutTable;
