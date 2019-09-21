@@ -4,7 +4,7 @@ import {
     getAllWorkouts,
     addWorkout,
     removeWorkout
-} from "../server/WorkoutEndpoints";
+} from "../server/endpoints/WorkoutEndpoints";
 
 const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'}];
 

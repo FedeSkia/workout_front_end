@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import MaterialTable from 'material-table';
-import {addExercise, getExercises, removeExercise} from "../server/ExerciseEndpoints";
+import {addExercise, getExercises, removeExercise} from "../server/endpoints/ExerciseEndpoints";
 
 const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'},
                   {title : 'reps', field: 'repetitions'}, {title: 'sets', field: 'sets'}
