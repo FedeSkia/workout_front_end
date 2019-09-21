@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react';
 import MaterialTable from 'material-table';
 import {addWorkout, removeWorkout} from "../server/WorkoutEndpoints";
-import { getExercises } from "../server/ExerciseEndpoints";
+import {addExercise, getExercises} from "../server/ExerciseEndpoints";
 
 const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'},
-                  {title : 'reps', field: 'repetitions'}, {title: 'sets', field: 'sets'}];
+                  {title : 'reps', field: 'repetitions'}, {title: 'sets', field: 'sets'},
+                  {title : 'exercise_id', field: 'exercise_id'}
+                ];
 
 function WorkoutDetailTable(workoutId) {
 
@@ -12,7 +14,7 @@ function WorkoutDetailTable(workoutId) {
     return (
         <div>
             <MaterialTable
-                title="Workouts Summary"
+                title="Workout exercises"
                 columns={columns}
                 actions={[
                     {
@@ -39,15 +41,17 @@ function WorkoutDetailTable(workoutId) {
                 editable= {{
                     onRowAdd: newData =>
                         new Promise((resolve, reject) => {
-                            addWorkout(newData).then(result => resolve());
+                            addExercise(newData, workoutId.workout_id).then(result =>
+                                resolve(result)
+                            );
                         }),
                     onRowUpdate: (newData, oldData) =>
                         new Promise((resolve, reject) => {
-                            addWorkout(newData).then(result => resolve());
+                            addExercise(newData).then(result => resolve());
                         }),
                     onRowDelete: oldData =>
                         new Promise((resolve, reject) => {
-                            removeWorkout(oldData.workout_id).then(result => resolve());
+                            // addExercise(oldData.exercise_id).then(result => resolve());
                         })
                 }}
             />
