@@ -8,7 +8,7 @@ import {
 
 const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'}];
 
-function WorkoutTable(navigateToWorkoutDetail) {
+function WorkoutTable(props) {
 
     useEffect(() => {
         console.log('WorkoutTable -> useEffect');}, []);
@@ -25,7 +25,9 @@ function WorkoutTable(navigateToWorkoutDetail) {
                         onClick: (event, rowData) => {
                             console.log(rowData);
                             console.log(event);
-                            navigateToWorkoutDetail.navigateToWorkoutDetail(rowData);
+                            props.navigateToWorkoutDetail(rowData);
+                            props.displayButtonToWorkouts();
+                            props.setIndexToolBarButtonSelected();
                         }
                     }
                 ]}

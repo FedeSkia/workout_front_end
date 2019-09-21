@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 export const baseUrl = "http://localhost:8080/";
 export const getAllWorkoutsPath = "workout/getAll";
 export const insertWorkoutsPath = "workout/new";

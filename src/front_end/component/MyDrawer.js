@@ -3,13 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
+import {Home, NavigateBefore} from "@material-ui/icons";
 
 
 const useStyles = makeStyles({
@@ -21,14 +19,19 @@ const useStyles = makeStyles({
     },
 });
 
-function CreateMyDrawer() {
+function CreateMyDrawer(props) {
     const classes = useStyles();
+    const [selectedIndex, setSelectedIndex] = React.useState(1);
     const [state, setState] = React.useState({
         top: false,
         left: false,
         bottom: false,
         right: false,
     });
+
+    function handleListItemClick(event, index) {
+        setSelectedIndex(index);
+    }
 
     const toggleDrawer = (side, open) => event => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -46,49 +49,32 @@ function CreateMyDrawer() {
             onKeyDown={toggleDrawer(side, false)}
         >
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
+                <ListItem
+                    button
+                    selected={selectedIndex === 0}
+                    onClick={event => handleListItemClick(event, 0)}
+                >
+                    <ListItemIcon >
+                        <Home />
+                    </ListItemIcon>
+                    <ListItemText primary={'Home'}/>
+                </ListItem>
             </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-        </div>
-    );
-
-    const fullList = side => (
-        <div
-            className={classes.fullList}
-            role="presentation"
-            onClick={toggleDrawer(side, false)}
-            onKeyDown={toggleDrawer(side, false)}
-        >
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
+            {props.buttonsToDisplay.goToWorkouts &&
+                <List>
+                    {['Go to workout'].map((text, index) => (
+                        <ListItem button
+                                  selected={selectedIndex === 1}
+                                  onClick={event => handleListItemClick(event, 1)}
+                        >
+                            <ListItemIcon>
+                                <NavigateBefore/>
+                            </ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    ))}
+                </List>
+            }
         </div>
     );
 

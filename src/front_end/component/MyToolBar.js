@@ -18,14 +18,14 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function CreateMyToolbar() {
+function CreateMyToolbar(props) {
     const classes = useStyles();
 
     return(
         <AppBar position="static">
             <Toolbar>
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                   <CreateMyDrawer/>
+                   <CreateMyDrawer buttonsToDisplay={props.buttonsToDisplay}/>
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
                     Workout management
