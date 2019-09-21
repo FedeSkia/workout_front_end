@@ -6,16 +6,15 @@ const columns = [ {title : 'name', field : 'name'}, {title : 'description', fiel
                   {title : 'reps', field: 'repetitions'}, {title: 'sets', field: 'sets'}
                 ];
 
-function WorkoutDetailTable(workout) {
+function WorkoutDetailTable(props) {
 
     useEffect(() => {
-        console.log('WorkoutDetailTable -> useEffect -> workoutChoosen= ');
-        console.log(workout);
+        console.log('WorkoutDetailTable -> useEffect ');
     }, []);
     return (
         <div>
             <MaterialTable
-                title="Workout exercises"
+                title={props.workout.name}
                 columns={columns}
                 options={{
                     paging: false
@@ -23,7 +22,7 @@ function WorkoutDetailTable(workout) {
                 data={
                     query =>
                         new Promise((resolve, reject) => {
-                            getExercises(workout.workout.workout_id, query.pageSize, query.page).then(result => {
+                            getExercises(props.workout.workout_id, query.pageSize, query.page).then(result => {
                                 resolve({
                                     data: result.data,
                                     page: result.page,
@@ -35,13 +34,13 @@ function WorkoutDetailTable(workout) {
                 editable= {{
                     onRowAdd: newData =>
                         new Promise((resolve, reject) => {
-                            addExercise(newData, workout.workout.workout_id).then(result =>
+                            addExercise(newData, props.workout.workout_id).then(result =>
                                 resolve(result)
                             );
                         }),
                     onRowUpdate: (newData, oldData) =>
                         new Promise((resolve, reject) => {
-                            addExercise(newData, workout.workout.workout_id).then(result => resolve());
+                            addExercise(newData, props.workout.workout_id).then(result => resolve());
                         }),
                     onRowDelete: oldData =>
                         new Promise((resolve, reject) => {

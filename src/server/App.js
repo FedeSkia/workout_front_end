@@ -3,6 +3,7 @@ import '../css/App.css';
 import WorkoutTable from "../front_end/WOTable";
 import WorkoutDetailTable from "../front_end/WorkoutDetail";
 import CreateMyToolbar from "../front_end/component/MyToolBar";
+import Timer from "../front_end/Timer";
 
 function App() {
     const [pageToDisplay, setPageToDisplay] = useState('home');
@@ -37,6 +38,10 @@ function App() {
         setSelectedIndex(index);
     }
 
+    function navigateToStartWorkout(workout){
+        setPageToDisplay('startWorkout');
+    }
+
   return (
       <div className="App">
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
@@ -48,9 +53,13 @@ function App() {
               <WorkoutTable navigateToWorkoutDetail={navigateToWorkoutDetail}
                             displayButtonToWorkouts={displayButtonToWorkouts}
                             setIndexToolBarButtonSelected={setIndexToolBarButtonSelected}
+                            navigateToStartWorkout={navigateToStartWorkout}
               />}
               {(pageToDisplay=== 'workoutDetail' && workoutChosen != null) &&
               <WorkoutDetailTable workout={workoutChosen}/> }
+              {(pageToDisplay=== 'startWorkout' && workoutChosen != null) &&
+                <Timer workoutChosen={workoutChosen}/>
+              }
           </div>
       </div>
   );

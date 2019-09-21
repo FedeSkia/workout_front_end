@@ -6,7 +6,8 @@ import {
     removeWorkout
 } from "../server/endpoints/WorkoutEndpoints";
 
-const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'}];
+const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'},
+                  {title : 'Start', field : 'start'}];
 
 function WorkoutTable(props) {
 
@@ -20,8 +21,17 @@ function WorkoutTable(props) {
                 columns={columns}
                 actions={[
                     {
+                        icon: 'accessibility_new',
+                        tooltip: 'Start Workout',
+                        onClick: (event, rowData) => {
+                            console.log(rowData);
+                            console.log(event);
+                            props.navigateToStartWorkout(rowData);
+                        }
+                    },
+                    {
                         icon: 'navigate_next',
-                        tooltip: 'Go to workout',
+                        tooltip: 'Go to workout details',
                         onClick: (event, rowData) => {
                             console.log(rowData);
                             console.log(event);
