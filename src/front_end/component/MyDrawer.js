@@ -52,7 +52,10 @@ function CreateMyDrawer(props) {
                 <ListItem
                     button
                     selected={selectedIndex === 0}
-                    onClick={event => handleListItemClick(event, 0)}
+                    onClick={event => {
+                        handleListItemClick(event, 0);
+                        props.navigateToHomePage();
+                    }}
                 >
                     <ListItemIcon >
                         <Home />
@@ -65,7 +68,10 @@ function CreateMyDrawer(props) {
                     {['Go to workout'].map((text, index) => (
                         <ListItem button
                                   selected={selectedIndex === 1}
-                                  onClick={event => handleListItemClick(event, 1)}
+                                  onClick={event => {
+                                      handleListItemClick(event, 1);
+                                      props.navigateToHomePage();
+                                  }}
                         >
                             <ListItemIcon>
                                 <NavigateBefore/>

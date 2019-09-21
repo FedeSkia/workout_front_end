@@ -5,7 +5,7 @@ import WorkoutDetailTable from "../front_end/WorkoutDetail";
 import CreateMyToolbar from "../front_end/component/MyToolBar";
 
 function App() {
-    const [pageToDisplay, setPageToDisplay] = useState('workoutTable');
+    const [pageToDisplay, setPageToDisplay] = useState('home');
     const [workoutChosen, setWorkoutChosen] = useState(0);
     const [buttonsToDisplay, setButtonToDisplay] = useState({goToWorkouts : false});
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -17,6 +17,12 @@ function App() {
         console.log(workout);
         setWorkoutChosen(workout);
         setPageToDisplay('workoutDetail');
+    }
+
+    function navigateToHomePage(){
+        console.log('home ');
+        setWorkoutChosen({});
+        setPageToDisplay('home');
     }
 
     function displayButtonToWorkouts() {
@@ -34,9 +40,11 @@ function App() {
   return (
       <div className="App">
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-          <CreateMyToolbar buttonsToDisplay={buttonsToDisplay} />
+          <CreateMyToolbar buttonsToDisplay={buttonsToDisplay}
+                           navigateToHomePage={navigateToHomePage}
+          />
           <div>
-              {pageToDisplay === 'workoutTable' &&
+              {pageToDisplay === 'home' &&
               <WorkoutTable navigateToWorkoutDetail={navigateToWorkoutDetail}
                             displayButtonToWorkouts={displayButtonToWorkouts}
                             setIndexToolBarButtonSelected={setIndexToolBarButtonSelected}

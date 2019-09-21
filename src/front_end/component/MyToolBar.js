@@ -25,7 +25,9 @@ function CreateMyToolbar(props) {
         <AppBar position="static">
             <Toolbar>
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                   <CreateMyDrawer buttonsToDisplay={props.buttonsToDisplay}/>
+                   <CreateMyDrawer buttonsToDisplay={props.buttonsToDisplay}
+                                   navigateToHomePage={props.navigateToHomePage}
+                   />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
                     Workout management
