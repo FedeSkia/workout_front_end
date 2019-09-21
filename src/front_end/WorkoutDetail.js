@@ -17,13 +17,6 @@ function WorkoutDetailTable(workout) {
             <MaterialTable
                 title="Workout exercises"
                 columns={columns}
-                actions={[
-                    {
-                        icon: 'navigate_next',
-                        tooltip: 'Start',
-                        onClick: (event, rowData) => {}
-                    }
-                ]}
                 options={{
                     paging: false
                 }}
