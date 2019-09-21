@@ -6,12 +6,6 @@ import { getExercises } from "../server/ExerciseEndpoints";
 const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'},
                   {title : 'reps', field: 'repetitions'}, {title: 'sets', field: 'sets'}];
 
-
-const data = [
-    { exercise_id: '1', name: 'Baran', description: 'description', repetitions: 63 , sets: 10}
-];
-
-
 function WorkoutDetailTable(workoutId) {
 
     useEffect(() => {console.log('WorkoutDetailTable -> useEffect -> workoutId= ' + workoutId.workoutId)}, []);
@@ -23,29 +17,25 @@ function WorkoutDetailTable(workoutId) {
                 actions={[
                     {
                         icon: 'navigate_next',
-                        tooltip: 'Save User',
+                        tooltip: 'Start',
                         onClick: (event, rowData) => {}
                     }
                 ]}
                 options={{
-                    paging: true
+                    paging: false
                 }}
-                data={ data }
-
-
-
-                    // query => {}
-                    // new Promise((resolve, reject) => {
-                    //     getExercises(workoutId.workoutId, query.pageSize, query.page).then(result => {
-                    //         console.log(result);
-                    //         resolve({
-                    //             data: result.data,
-                    //             page: result.page,
-                    //             totalCount: result.total,
-                    //         })
-                    //     }).catch(error => console.log(error))
-                    // })
-                // }
+                data={
+                    query =>
+                        new Promise((resolve, reject) => {
+                            getExercises(workoutId.workoutId, query.pageSize, query.page).then(result => {
+                                resolve({
+                                    data: result.data,
+                                    page: result.page,
+                                    totalCount: result.total,
+                                })
+                            })
+                        })
+                }
                 editable= {{
                     onRowAdd: newData =>
                         new Promise((resolve, reject) => {

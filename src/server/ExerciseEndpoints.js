@@ -9,9 +9,7 @@ function getExercises(idWorkout, pageSize, page) {
         '?per_page=' + pageSize  +
         '&page=' + (page + 1) +
         '&id=' + idWorkout;
-    return fetch(url, {
-    }).then(response => {
-        console.log(response);
+    return fetch(url).then(response => {
         return response.json();
     }); // parses JSON response into native JavaScript objects
 }
