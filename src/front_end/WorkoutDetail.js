@@ -6,9 +6,12 @@ const columns = [ {title : 'name', field : 'name'}, {title : 'description', fiel
                   {title : 'reps', field: 'repetitions'}, {title: 'sets', field: 'sets'}
                 ];
 
-function WorkoutDetailTable(workoutId) {
+function WorkoutDetailTable(workout) {
 
-    useEffect(() => {console.log('WorkoutDetailTable -> useEffect -> workoutId= ' + workoutId.workoutId)}, []);
+    useEffect(() => {
+        console.log('WorkoutDetailTable -> useEffect -> workoutChoosen= ');
+        console.log(workout);
+    }, []);
     return (
         <div>
             <MaterialTable
@@ -27,7 +30,7 @@ function WorkoutDetailTable(workoutId) {
                 data={
                     query =>
                         new Promise((resolve, reject) => {
-                            getExercises(workoutId.workoutId, query.pageSize, query.page).then(result => {
+                            getExercises(workout.workout.workout_id, query.pageSize, query.page).then(result => {
                                 resolve({
                                     data: result.data,
                                     page: result.page,
@@ -39,7 +42,7 @@ function WorkoutDetailTable(workoutId) {
                 editable= {{
                     onRowAdd: newData =>
                         new Promise((resolve, reject) => {
-                            addExercise(newData, workoutId.workoutId).then(result =>
+                            addExercise(newData, workout.workout.workout_id).then(result =>
                                 resolve(result)
                             );
                         }),

@@ -25,7 +25,7 @@ function WorkoutTable(navigateToWorkoutDetail) {
                         onClick: (event, rowData) => {
                             console.log(rowData);
                             console.log(event);
-                            navigateToWorkoutDetail.navigateToWorkoutDetail(rowData.workout_id);
+                            navigateToWorkoutDetail.navigateToWorkoutDetail(rowData);
                         }
                     }
                 ]}

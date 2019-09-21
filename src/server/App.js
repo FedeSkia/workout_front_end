@@ -5,12 +5,13 @@ import WorkoutDetailTable from "../front_end/WorkoutDetail";
 
 function App() {
     const [pageToDisplay, setPageToDisplay] = useState('workoutTable');
-    const [workoutId, setWorkoutId] = useState(0);
+    const [workoutChosen, setWorkoutChosen] = useState(0);
     useEffect(() => {console.log('App -> useEffect')}, []);
 
-    function navigateToWorkoutDetail(workoutId) {
-        console.log('navigateToWorkoutDetail');
-        setWorkoutId(workoutId);
+    function navigateToWorkoutDetail(workout) {
+        console.log('navigateToWorkoutDetail -> workout: ');
+        console.log(workout);
+        setWorkoutChosen(workout);
         setPageToDisplay('workoutDetail');
     }
 
@@ -19,8 +20,8 @@ function App() {
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
         {pageToDisplay === 'workoutTable' &&
              <WorkoutTable navigateToWorkoutDetail={navigateToWorkoutDetail}/>}
-        {(pageToDisplay=== 'workoutDetail' && workoutId != null) &&
-             <WorkoutDetailTable workoutId={workoutId}/> }
+        {(pageToDisplay=== 'workoutDetail' && workoutChosen != null) &&
+             <WorkoutDetailTable workout={workoutChosen}/> }
     </div>
   );
 }
