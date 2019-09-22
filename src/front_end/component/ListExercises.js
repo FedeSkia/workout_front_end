@@ -1,37 +1,53 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/Inbox';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
+        width: '100%'
     },
 }));
 
 
-function ExerciseList(props) {
+function ExerciseList({exercisesDone}) {
     const classes = useStyles();
+
+    function createListOfExercises() {
+        console.log(exercisesDone);
+        return (
+            <List component="nav">
+                {exercisesDone.map((ex, index) => {
+                    {
+                        if(!ex.hasBeenDone) {
+                            return (
+                                <ListItem
+                                    key={index}
+                                    button>
+                                    <ListItemIcon>
+                                        ICONA
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={ex.name}/>
+                                </ListItem>
+                            )
+                        } else
+                            return;
+                    }})}
+            </List>
+        );}
+
+    let listOfExercise = createListOfExercises();
+    useEffect(() => {
+        console.log("ExerciseList -> useEffect");
+        listOfExercise = createListOfExercises();
+    });
+
     return (
         <div className={classes.root}>
-            <List component="nav" aria-label="main mailbox folders">
-                {props.exercisesDone.map((exercise, index) => (
-                    <ListItem
-                        key={index}
-                        button>
-                        <ListItemIcon>
-                            <InboxIcon/>
-                        </ListItemIcon>
-                        <ListItemText
-                            primary={exercise.name}/>
-                    </ListItem>
-                ))}
-            </List>
+            {listOfExercise}
         </div>
     );
 }

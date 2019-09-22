@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useTimer } from 'react-timer-hook';
 import Button from "@material-ui/core/Button";
 
@@ -14,6 +14,8 @@ function MyTimer({expiryTimestamp, exercisesDone, expiryTimestampRestart, logicF
         resume,
         restart,
     } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+
+    useEffect(() => {});
 
     function restartExpirtyTimestamp(){
         let date = new Date();
@@ -33,7 +35,7 @@ function MyTimer({expiryTimestamp, exercisesDone, expiryTimestampRestart, logicF
             <Button onClick={() => {
                 logicForTimerWihExercises();
                 restart(restartExpirtyTimestamp());
-            }}>restart</Button>
+            }}>Next exercise</Button>
         </div>
     );
 }
