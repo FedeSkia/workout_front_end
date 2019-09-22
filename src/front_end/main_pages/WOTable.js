@@ -4,7 +4,7 @@ import {
     getAllWorkouts,
     addWorkout,
     removeWorkout
-} from "../server/endpoints/WorkoutEndpoints";
+} from "../../server/endpoints/WorkoutEndpoints";
 
 const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'},
                   {title : 'Start', field : 'start'}];
@@ -24,8 +24,6 @@ function WorkoutTable(props) {
                         icon: 'accessibility_new',
                         tooltip: 'Start Workout',
                         onClick: (event, rowData) => {
-                            console.log(rowData);
-                            console.log(event);
                             props.navigateToStartWorkout(rowData);
                         }
                     },
@@ -33,8 +31,6 @@ function WorkoutTable(props) {
                         icon: 'navigate_next',
                         tooltip: 'Go to workout details',
                         onClick: (event, rowData) => {
-                            console.log(rowData);
-                            console.log(event);
                             props.navigateToWorkoutDetail(rowData);
                             props.displayButtonToWorkouts();
                             props.setIndexToolBarButtonSelected();

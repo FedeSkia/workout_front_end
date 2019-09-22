@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import MaterialTable from 'material-table';
-import {addExercise, getExercises, removeExercise} from "../server/endpoints/ExerciseEndpoints";
+import {addExercise, getExercisesByWorkoutId, removeExercise} from "../../server/endpoints/ExerciseEndpoints";
 
 const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'},
                   {title : 'reps', field: 'repetitions'}, {title: 'sets', field: 'sets'}
@@ -9,7 +9,6 @@ const columns = [ {title : 'name', field : 'name'}, {title : 'description', fiel
 function WorkoutDetailTable(props) {
 
     useEffect(() => {
-        console.log('WorkoutDetailTable -> useEffect ');
     }, []);
     return (
         <div>
@@ -22,7 +21,7 @@ function WorkoutDetailTable(props) {
                 data={
                     query =>
                         new Promise((resolve, reject) => {
-                            getExercises(props.workout.workout_id, query.pageSize, query.page).then(result => {
+                            getExercisesByWorkoutId(props.workout.workout_id, query.pageSize, query.page).then(result => {
                                 resolve({
                                     data: result.data,
                                     page: result.page,

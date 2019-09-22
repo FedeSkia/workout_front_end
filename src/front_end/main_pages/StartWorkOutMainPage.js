@@ -1,0 +1,59 @@
+import MyTimer from "./Timer";
+import React, {useState} from "react";
+import ExerciseList from "../component/ListExercises";
+import {Container} from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        padding: theme.spacing(3, 2),
+    },
+    myContainer: {
+        maxWidth: 'xl'
+    },
+    boxMaxSize: {
+        width: '100%'
+    }
+}));
+
+function StartWorkout({expiryTimestamp, workoutChosen, expiryTimestampRestart}) {
+    const [exercisesDone, setExercisesDone] = useState(workoutChosen);
+    const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
+    const classes = useStyles();
+
+    function logicForTimerWihExercises() {
+        if( currentExerciseIndex !== (workoutChosen.length)) {
+            let newExercisesDone = exercisesDone;
+            newExercisesDone[currentExerciseIndex].hasBeenDone = true;
+            setCurrentExerciseIndex(currentExerciseIndex + 1);
+            setExercisesDone(newExercisesDone);
+        } else {
+            console.warn('You are done');
+        }
+
+    }
+
+    return (
+        <Paper className={classes.root}>
+            <Container className={classes.myContainer}>
+                <Box className={classes.boxMaxSize} display="flex" p={1} bgcolor="background.paper" justifyContent="center">
+
+                    <Box width="20%" p={1} order={1} bgcolor="grey.300">
+                        <ExerciseList exercisesDone={exercisesDone}/>
+                    </Box>
+                    <Box p={1} order={2} bgcolor="grey.300">
+                        <MyTimer expiryTimestamp={expiryTimestamp}
+                                 exercisesDone={exercisesDone}
+                                 expiryTimestampRestart={30}
+                                 logicForTimerWihExercises={logicForTimerWihExercises}
+                        />
+                    </Box>
+                </Box>
+            </Container>
+        </Paper>
+    );
+}
+
+export default StartWorkout;

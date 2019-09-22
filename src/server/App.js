@@ -1,27 +1,35 @@
 import React, {useEffect, useState} from 'react';
 import '../css/App.css';
-import WorkoutTable from "../front_end/WOTable";
-import WorkoutDetailTable from "../front_end/WorkoutDetail";
+import WorkoutTable from "../front_end/main_pages/WOTable";
+import WorkoutDetailTable from "../front_end/main_pages/WorkoutDetail";
 import CreateMyToolbar from "../front_end/component/MyToolBar";
-import MyTimer from "../front_end/Timer";
+import {getExercisesByWorkoutId} from "./endpoints/ExerciseEndpoints";
+import StartWorkout from "../front_end/main_pages/StartWorkOutMainPage";
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        width : '100%',
+        height: '100%'
+    }
+}));
 
 function App() {
     const [pageToDisplay, setPageToDisplay] = useState('home');
     const [workoutChosen, setWorkoutChosen] = useState(0);
     const [buttonsToDisplay, setButtonToDisplay] = useState({goToWorkouts : false});
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [defaultExerciseDuration, setDefaultExerciseDuration] = useState(30);
+    const classes = useStyles();
 
-    useEffect(() => {console.log('App -> update')}, []);
+    useEffect(() => {}, []);
 
     function navigateToWorkoutDetail(workout) {
-        console.log('navigateToWorkoutDetail -> workout: ');
-        console.log(workout);
         setWorkoutChosen(workout);
         setPageToDisplay('workoutDetail');
     }
 
     function navigateToHomePage(){
-        console.log('home ');
         setWorkoutChosen({});
         setPageToDisplay('home');
     }
@@ -39,7 +47,11 @@ function App() {
     }
 
     function navigateToStartWorkout(workout){
-        setPageToDisplay('startWorkout');
+        getExercisesByWorkoutId(workout.workout_id, 100, 1)
+            .then(result => {
+                setWorkoutChosen(result);
+                setPageToDisplay('startWorkout');
+            });
     }
 
     function setTimerMaxDuration(maxDurationSec){
@@ -49,8 +61,8 @@ function App() {
     }
 
   return (
-      <div className="App">
-          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+      <div className={classes.root}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
           <CreateMyToolbar buttonsToDisplay={buttonsToDisplay}
                            navigateToHomePage={navigateToHomePage}
           />
@@ -64,10 +76,12 @@ function App() {
               {(pageToDisplay=== 'workoutDetail' && workoutChosen != null) &&
               <WorkoutDetailTable workout={workoutChosen}/> }
               {(pageToDisplay=== 'startWorkout' && workoutChosen != null) &&
-                <MyTimer expiryTimestamp={setTimerMaxDuration(30)}
-                         workoutChosen={workoutChosen}
-                         expiryTimestampRestart={30}
-                />
+                  <StartWorkout
+                      expiryTimestamp={setTimerMaxDuration(defaultExerciseDuration)}
+                      workoutChosen={workoutChosen.data}
+                      expiryTimestampRestart={defaultExerciseDuration}
+                  />
+
               }
           </div>
       </div>

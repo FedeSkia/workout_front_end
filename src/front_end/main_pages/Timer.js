@@ -1,7 +1,8 @@
 import React from 'react';
 import { useTimer } from 'react-timer-hook';
+import Button from "@material-ui/core/Button";
 
-function MyTimer({expiryTimestamp, workoutChosen, expiryTimestampRestart}) {
+function MyTimer({expiryTimestamp, exercisesDone, expiryTimestampRestart, logicForTimerWihExercises}) {
 
     const {
         seconds,
@@ -14,7 +15,7 @@ function MyTimer({expiryTimestamp, workoutChosen, expiryTimestampRestart}) {
         restart,
     } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
 
-    function restartExpirtyTimestamo(){
+    function restartExpirtyTimestamp(){
         let date = new Date();
         date.setSeconds(date.getSeconds() + expiryTimestampRestart);
         return date;
@@ -26,12 +27,13 @@ function MyTimer({expiryTimestamp, workoutChosen, expiryTimestampRestart}) {
             <div style={{fontSize: '100px'}}>
                <span>{minutes}</span>:<span>{seconds}</span>
             </div>
-            <button onClick={start}>Start</button>
-            <button onClick={pause}>Pause</button>
-            <button onClick={resume}>Resume</button>
-            <button onClick={() => {
-                restart(restartExpirtyTimestamo());
-            }}>restart</button>
+            <Button onClick={start}>Start</Button>
+            <Button onClick={pause}>Pause</Button>
+            <Button onClick={resume}>Resume</Button>
+            <Button onClick={() => {
+                logicForTimerWihExercises();
+                restart(restartExpirtyTimestamp());
+            }}>restart</Button>
         </div>
     );
 }

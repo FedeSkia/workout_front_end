@@ -4,11 +4,11 @@ export const insertExercisesPath = "exercise/add";
 export const getAllExercisesByWorkoutId = "exercise/getAllExerciseByWorkoutID";
 export const deleteExercise = "exercise/delete/";
 
-function getExercises(idWorkout, pageSize, page) {
+function getExercisesByWorkoutId(workout_id, pageSize, page) {
     let url = baseUrl + getAllExercisesByWorkoutId +
         '?per_page=' + pageSize  +
         '&page=' + (page + 1) +
-        '&id=' + idWorkout;
+        '&id=' + workout_id;
     return fetch(url).then(response => {
         return response.json();
     }); // parses JSON response into native JavaScript objects
@@ -38,7 +38,7 @@ function removeExercise(id){
     }).then(response => { return response.json(); }); // parses JSON response into native JavaScript objects
 }
 
-export { getExercises, addExercise, removeExercise };
+export { getExercisesByWorkoutId, addExercise, removeExercise };
 
 
 
