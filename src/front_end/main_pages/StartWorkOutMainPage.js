@@ -30,13 +30,10 @@ const useStyles = makeStyles(theme => ({
  */
 function addHasBeenDoneToWorkoutChosen(workoutChosen){
     if(workoutChosen !== undefined) {
-        const exercisesDone = function (workoutChosen) {
-            return workoutChosen.map(wo => {
-                wo.hasBeenDone = false;
-                return wo;
-            })
-        };
-        return exercisesDone;
+        return workoutChosen.map(wo => {
+            wo.hasBeenDone = false;
+            return wo;
+        })
     } else
         return {};
 }
