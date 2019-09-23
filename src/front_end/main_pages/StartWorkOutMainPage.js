@@ -1,15 +1,10 @@
 import MyTimer from "./Timer";
-import React, {useState} from "react";
+import React, {useEffect, useReducer} from "react";
 import ExerciseList from "../component/ListExercises";
 import {Container} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import InboxIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,21 +33,48 @@ function addHasBeenDoneToWorkoutChosen(workoutChosen){
         return {};
 }
 
+function reducer(state, action) {
+    switch (action) {
+        case 'incrementExerciseIndex': return {
+            ...state,
+            currentExerciseIndex: state.currentExerciseIndex + 1};
+        case 'setExerciseDone': {
+            let newState = state;
+            newState.exerciseDone[state.currentExerciseIndex].hasBeenDone = true;
+            newState.currentExerciseIndex++;
+            console.log(newState);
+            return newState;
+        }
+        default:
+            throw new Error();
+    }
+}
+
+function init(expiryTimestampR, workoutChosenR, expiryTimestampRestartR){
+    let newState = {
+        exerciseDone :  addHasBeenDoneToWorkoutChosen(workoutChosenR),
+        currentExerciseIndex: 0,
+        expiryTimestampRestart: {expiryTimestampRestartR},
+        expiryTimestamp: {expiryTimestampR}
+    };
+    return newState;
+}
+
 function StartWorkout({expiryTimestamp, workoutChosen, expiryTimestampRestart}) {
-    const [exercisesDone, setExercisesDone] = useState(addHasBeenDoneToWorkoutChosen(workoutChosen));
-    const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const classes = useStyles();
+    const [state, dispatch] = useReducer(reducer, init(expiryTimestamp, workoutChosen, expiryTimestampRestart));
+
+    useEffect(() => {
+        console.log('StartWorkout useEffect');
+        console.log(state);
+    });
 
     function logicForTimerWihExercises() {
-        if( currentExerciseIndex !== (workoutChosen.length)) {
-            let newExercisesDone = exercisesDone;
-            newExercisesDone[currentExerciseIndex].hasBeenDone = true;
-            setCurrentExerciseIndex(currentExerciseIndex + 1);
-            setExercisesDone(newExercisesDone);
+        if( state.currentExerciseIndex < workoutChosen.length) {
+            dispatch ('setExerciseDone');
         } else {
             console.warn('You are done');
         }
-
     }
 
     return (
@@ -60,11 +82,11 @@ function StartWorkout({expiryTimestamp, workoutChosen, expiryTimestampRestart}) 
             <Container className={classes.myContainer}>
                 <Box className={classes.boxMaxSize} display="flex" p={1} justifyContent="right">
                     <Box width="20%" p={1} order={1} bgcolor="grey.300">
-                        <ExerciseList exercisesDone={exercisesDone}/>
+                        <ExerciseList exercisesDone={state.exerciseDone}/>
                     </Box>
                     <Box p={1} order={2}>
                         <MyTimer expiryTimestamp={expiryTimestamp}
-                                 exercisesDone={exercisesDone}
+                                 exercisesDone={state.exerciseDone}
                                  expiryTimestampRestart={30}
                                  logicForTimerWihExercises={logicForTimerWihExercises}
                         />

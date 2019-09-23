@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 const useStyles = makeStyles(theme => ({
@@ -13,41 +12,34 @@ const useStyles = makeStyles(theme => ({
 
 
 function ExerciseList({exercisesDone}) {
+    const [exercises, setExercises] = useState(exercisesDone);
     const classes = useStyles();
-
     function createListOfExercises() {
-        console.log(exercisesDone);
         return (
             <List component="nav">
-                {exercisesDone.map((ex, index) => {
-                    {
-                        if(!ex.hasBeenDone) {
-                            return (
-                                <ListItem
-                                    key={index}
-                                    button>
-                                    <ListItemIcon>
-                                        ICONA
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={ex.name}/>
-                                </ListItem>
-                            )
-                        } else
-                            return;
-                    }})}
+                {exercises.filter(ex => !ex.hasBeenDone)
+                    .map((ex, index) => (
+                    <ListItem
+                        key={index}
+                        button>
+                        <ListItemText
+                            primary={ex.name}/>
+                    </ListItem>
+                    ))}
             </List>
         );}
 
-    let listOfExercise = createListOfExercises();
     useEffect(() => {
         console.log("ExerciseList -> useEffect");
-        listOfExercise = createListOfExercises();
+        // createListOfExercises();
+        setExercises(exercisesDone);
+        console.log("exercises");
+        console.log(exercises);
     });
 
     return (
         <div className={classes.root}>
-            {listOfExercise}
+            {createListOfExercises()}
         </div>
     );
 }

@@ -1,5 +1,7 @@
 
-Njavascript:S1128"&Remove this unused import of 'AppBar'.(ÁÈ¦Íÿÿÿÿÿ8€ º«Õ-
-Mjavascript:S1128"%Remove this unused import of 'Label'.(Š¼Ñ¡ýÿÿÿÿ8ðÊ„¬Õ-
-Vjavascript:S1128".Remove this unused import of 'CreateMyDrawer'.(üÝÀèûÿÿÿÿ8€ º«Õ-
-ajavascript:UnusedVariable"5Remove unused function 'dontDisplayButtonToWorkouts'.(æü³ 8¹”»¬Õ-
+ojavascript:S1854"MRemove this useless assignment to local variable "setDefaultExerciseDuration"(Â×‰l8Û‰Ý°Õ-
+ajavascript:UnusedVariable)"5Remove unused function 'dontDisplayButtonToWorkouts'.(æü³ 8¹”»¬Õ-
+hjavascript:S1854"@Remove this useless assignment to local variable "selectedIndex"(¾Ö£¬ùÿÿÿÿ8Ú¿µ­Õ-
+Rjavascript:S1128"*Remove this unused import of 'useReducer'.(õ …üÿÿÿÿ8»¹ÞéÕ-
+ojavascript:UnusedVariable">Remove the declaration of the unused 'selectedIndex' variable.(¾Ö£¬ùÿÿÿÿ8Ú¿µ­Õ-
+vjavascript:UnusedVariable"KRemove the declaration of the unused 'setDefaultExerciseDuration' variable.(Â×‰l8Û‰Ý°Õ-

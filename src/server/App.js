@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import '../css/App.css';
 import WorkoutTable from "../front_end/main_pages/WOTable";
 import WorkoutDetailTable from "../front_end/main_pages/WorkoutDetail";
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
     const [pageToDisplay, setPageToDisplay] = useState('home');
-    const [workoutChosen, setWorkoutChosen] = useState(0);
+    const [workoutChosen, setWorkoutChosen] = useState(undefined);
     const [buttonsToDisplay, setButtonToDisplay] = useState({goToWorkouts : false});
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [defaultExerciseDuration, setDefaultExerciseDuration] = useState(30);
