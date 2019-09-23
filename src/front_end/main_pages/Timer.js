@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import { useTimer } from 'react-timer-hook';
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 
 function MyTimer({expiryTimestamp, exercisesDone, expiryTimestampRestart, logicForTimerWihExercises}) {
 
@@ -24,7 +25,7 @@ function MyTimer({expiryTimestamp, exercisesDone, expiryTimestampRestart, logicF
     }
 
     return (
-        <div style={{textAlign: 'center'}}>
+        <Box p={1} order={2}>
             <h1>Exercise timer</h1>
             <div style={{fontSize: '100px'}}>
                <span>{minutes}</span>:<span>{seconds}</span>
@@ -36,7 +37,7 @@ function MyTimer({expiryTimestamp, exercisesDone, expiryTimestampRestart, logicF
                 logicForTimerWihExercises();
                 restart(restartExpirtyTimestamp());
             }}>Next exercise</Button>
-        </div>
+        </Box>
     );
 }
 export default MyTimer;

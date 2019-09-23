@@ -12,21 +12,20 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-
-function ExerciseList({exercisesDone: exercisesToDo}) {
+function ListExercisesDone({exercisesDone}) {
     const classes = useStyles();
 
     function createListOfExercises() {
         return (
             <List component="nav">
-                {exercisesToDo.filter(ex => !ex.hasBeenDone)
+                {exercisesDone.filter(ex => ex.hasBeenDone)
                     .map((ex, index) => (
-                    <ListItem
-                        key={index}
-                        button>
-                        <ListItemText
-                            primary={ex.name}/>
-                    </ListItem>
+                        <ListItem
+                            key={index}
+                            button>
+                            <ListItemText
+                                primary={ex.name}/>
+                        </ListItem>
                     ))}
             </List>
         );}
@@ -35,10 +34,10 @@ function ExerciseList({exercisesDone: exercisesToDo}) {
     return (
         <Box width="40%" p={1} order={1} bgcolor="grey.300">
             <Typography variant={'body1'}>
-                To do:
+                Done:
             </Typography>
             {createListOfExercises()}
         </Box>
     );
 }
-export default ExerciseList;
+export default ListExercisesDone;
