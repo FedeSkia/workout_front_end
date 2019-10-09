@@ -3,13 +3,11 @@ import { useTimer } from 'react-timer-hook';
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 
-function MyTimer({expiryTimestamp, exercisesDone, expiryTimestampRestart, logicForTimerWihExercises}) {
+function MyTimer({expiryTimestamp, expiryTimestampRestart, logicForTimerWihExercises}) {
 
     const {
         seconds,
         minutes,
-        hours,
-        days,
         start,
         pause,
         resume,

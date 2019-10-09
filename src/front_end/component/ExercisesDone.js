@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ListExercisesDone({exercisesDone}) {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     function createListOfExercises() {
         return (

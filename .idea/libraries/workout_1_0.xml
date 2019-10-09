@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="workout-1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../workout/build/libs/workout-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

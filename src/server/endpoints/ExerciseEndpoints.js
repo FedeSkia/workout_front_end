@@ -19,19 +19,18 @@ function addExercise(exercise, workoutId){
     exercise.workout_id = workoutId;
     return fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(exercise)
-    }).then(response => { return response.json(); }); // parses JSON response into native JavaScript objects
+    }).then(response => { return response.json(); })
+        .catch((error) => console.log(error)); // parses JSON response into native JavaScript objects
 }
 
 function removeExercise(id){
     let url = baseUrl + deleteExercise + id;
     return fetch(url, {
         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
         headers: {
             'Content-Type': 'application/json'
         }

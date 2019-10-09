@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import '../css/App.css';
 import WorkoutTable from "../front_end/main_pages/WOTable";
 import WorkoutDetailTable from "../front_end/main_pages/WorkoutDetail";
@@ -14,43 +14,85 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+function init(){
+    return {
+        pageToDisplay: 'home',
+        workoutChosen: undefined,
+        buttonsToDisplay: {
+            goToWorkouts : false
+        },
+        defaultExerciseDuration: 30,
+        selectedIndex: 0
+    }
+}
+
+function reducer(state, action) {
+    console.log('reducer action');
+    console.log(action);
+    switch (action.type) {
+        case 'navigateToWorkDetails': {
+            const newState = JSON.parse(JSON.stringify(state));
+            newState.pageToDisplay = 'workoutDetail';
+            newState.workoutChosen = action.workoutChosen;
+            newState.buttonsToDisplay.goToWorkouts = true;
+            newState.selectedIndex = action.index;
+            return newState;
+        }
+        case 'navigateToHome': {
+            const newState = JSON.parse(JSON.stringify(state));
+            newState.pageToDisplay = 'home';
+            newState.workoutChosen = undefined;
+            return newState;
+        }
+        case 'dontDisplayButtonToWorkouts': {
+            const newState = JSON.parse(JSON.stringify(state));
+            newState.buttonsToDisplay.goToWorkouts = false;
+            return newState;
+        }
+        case 'startWorkout': {
+            const newState = JSON.parse(JSON.stringify(state));
+            newState.pageToDisplay = 'startWorkout';
+            newState.workoutChosen = action.workoutChosen;
+            return newState;
+        }
+        default:
+            throw new Error();
+    }
+}
+
 function App() {
-    const [pageToDisplay, setPageToDisplay] = useState('home');
-    const [workoutChosen, setWorkoutChosen] = useState(undefined);
-    const [buttonsToDisplay, setButtonToDisplay] = useState({goToWorkouts : false});
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [defaultExerciseDuration, setDefaultExerciseDuration] = useState(30);
+    const [state, dispatch] = useReducer(reducer, init());
     const classes = useStyles();
 
-    useEffect(() => {}, []);
+    // useEffect(() => {}, []);
 
     function navigateToWorkoutDetail(workout) {
-        setWorkoutChosen(workout);
-        setPageToDisplay('workoutDetail');
+        dispatch({
+            type: 'navigateToWorkDetails',
+            workoutChosen: workout
+        });
     }
 
-    function navigateToHomePage(){
-        setWorkoutChosen({});
-        setPageToDisplay('home');
+    function navigateToHomePage() {
+        dispatch({type: 'navigateToHome'});
     }
 
     function displayButtonToWorkouts() {
-        setButtonToDisplay({goToWorkouts: true});
+        dispatch({type: 'displayButtonToWorkouts'});
     }
 
     function dontDisplayButtonToWorkouts() {
-        setButtonToDisplay({goToWorkouts: false});
+        dispatch({type: 'dontDisplayButtonToWorkouts'});
     }
 
     function setIndexToolBarButtonSelected(index) {
-        setSelectedIndex(index);
+        dispatch({type: 'setIndex', index: index});
     }
 
     function navigateToStartWorkout(workout){
         getExercisesByWorkoutId(workout.workout_id, 100, 1)
             .then(result => {
-                setWorkoutChosen(result);
-                setPageToDisplay('startWorkout');
+                dispatch({type: 'startWorkout', workoutChosen: result});
             });
     }
 
@@ -63,26 +105,19 @@ function App() {
   return (
       <div className={classes.root}>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-          <CreateMyToolbar buttonsToDisplay={buttonsToDisplay}
-                           navigateToHomePage={navigateToHomePage}
-          />
+          <CreateMyToolbar buttonsToDisplay={state.buttonsToDisplay}
+                           navigateToHomePage={navigateToHomePage}/>
           <div>
-              {pageToDisplay === 'home' &&
-              <WorkoutTable navigateToWorkoutDetail={navigateToWorkoutDetail}
-                            displayButtonToWorkouts={displayButtonToWorkouts}
-                            setIndexToolBarButtonSelected={setIndexToolBarButtonSelected}
-                            navigateToStartWorkout={navigateToStartWorkout}
-              />}
-              {(pageToDisplay=== 'workoutDetail' && workoutChosen != null) &&
-              <WorkoutDetailTable workout={workoutChosen}/> }
-              {(pageToDisplay=== 'startWorkout' && workoutChosen != null) &&
+              {state.pageToDisplay === 'home' &&
+                  <WorkoutTable navigateToWorkoutDetail={navigateToWorkoutDetail}
+                                navigateToStartWorkout={navigateToStartWorkout}/>}
+              {(state.pageToDisplay=== 'workoutDetail' && state.workoutChosen != null) &&
+                  <WorkoutDetailTable workout={state.workoutChosen}/> }
+              {(state.pageToDisplay=== 'startWorkout' && state.workoutChosen != null) &&
                   <StartWorkout
-                      expiryTimestamp={setTimerMaxDuration(defaultExerciseDuration)}
-                      workoutChosen={workoutChosen.data}
-                      expiryTimestampRestart={defaultExerciseDuration}
-                  />
-
-              }
+                      expiryTimestamp={setTimerMaxDuration(state.defaultExerciseDuration)}
+                      workoutChosen={state.workoutChosen.data}
+                      expiryTimestampRestart={state.defaultExerciseDuration}/>}
           </div>
       </div>
   );

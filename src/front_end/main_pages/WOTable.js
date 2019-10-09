@@ -6,10 +6,9 @@ import {
     removeWorkout
 } from "../../server/endpoints/WorkoutEndpoints";
 
-const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'},
-                  {title : 'Start', field : 'start'}];
+const columns = [ {title : 'name', field : 'name'}, {title : 'description', field : 'description'}];
 
-function WorkoutTable(props) {
+function WorkoutTable({navigateToWorkoutDetail, navigateToStartWorkout}) {
 
     useEffect(() => {
         console.log('WorkoutTable -> useEffect');}, []);
@@ -24,17 +23,13 @@ function WorkoutTable(props) {
                         icon: 'accessibility_new',
                         tooltip: 'Start Workout',
                         onClick: (event, rowData) => {
-                            props.navigateToStartWorkout(rowData);
+                            navigateToStartWorkout(rowData);
                         }
                     },
                     {
                         icon: 'navigate_next',
                         tooltip: 'Go to workout details',
-                        onClick: (event, rowData) => {
-                            props.navigateToWorkoutDetail(rowData);
-                            props.displayButtonToWorkouts();
-                            props.setIndexToolBarButtonSelected();
-                        }
+                        onClick: (event, rowData) => {navigateToWorkoutDetail(rowData);}
                     }
                 ]}
                 options={{
