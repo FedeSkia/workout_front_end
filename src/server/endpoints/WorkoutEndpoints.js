@@ -29,8 +29,9 @@ function addWorkout(data) {
 }
 
 function removeWorkout(id){
-    return fetch(baseUrl + deleteWorkout + "&id=" + id, {
+    return fetch(baseUrl + deleteWorkout + "/" + id, {
         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
         }
