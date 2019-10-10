@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -15,16 +15,18 @@ const useStyles = makeStyles(theme => ({
 function ListExercisesDone({exercisesDone}) {
     // const classes = useStyles();
 
+    useEffect(() => {
+        console.log('ListExercisesDone -> render with exerciseDone');
+        console.log(exercisesDone)
+    });
+
     function createListOfExercises() {
         return (
             <List component="nav">
                 {exercisesDone.filter(ex => ex.hasBeenDone)
                     .map((ex, index) => (
-                        <ListItem
-                            key={index}
-                            button>
-                            <ListItemText
-                                primary={ex.name}/>
+                        <ListItem key={index}>
+                            <ListItemText primary={ex.name} secondary={ex.setsDone}/>
                         </ListItem>
                     ))}
             </List>

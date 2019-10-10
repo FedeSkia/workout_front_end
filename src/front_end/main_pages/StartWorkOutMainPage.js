@@ -1,5 +1,5 @@
 import MyTimer from "./Timer";
-import React, {useReducer} from "react";
+import React, {useEffect, useReducer} from "react";
 import ExerciseListToDo from "../component/ListExercises";
 import {Container, Typography} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
@@ -19,11 +19,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function reducer(state, action) {
-    switch (action) {
-        case 'setExerciseDone': {
+    switch (action.type) {
+        case 'increaseNumberOfSetsDoneOfExercise': {
             const newState = JSON.parse(JSON.stringify(state));
-            newState.exerciseDone[state.currentExerciseIndex].hasBeenDone = true;
-            newState.currentExerciseIndex++;
+            let exerciseIndex = state.currentExerciseIndex;
+            newState.exerciseDone[exerciseIndex].setsDone++;
+            if(newState.exerciseDone[exerciseIndex].setsDone >= newState.exerciseDone[exerciseIndex].sets) {
+                newState.exerciseDone[exerciseIndex].hasBeenDone = true;
+            }
+            return newState;
+        }
+        case 'updateExerciseChosen': {
+            const newState = JSON.parse(JSON.stringify(state));
+            newState.currentExerciseIndex = action.newExerciseIndex;
             return newState;
         }
         default:
@@ -33,7 +41,12 @@ function reducer(state, action) {
 
 function init(expiryTimestampR, workoutChosenR, expiryTimestampRestartR){
     return {
-        exerciseDone :  workoutChosenR.map(wo => {wo.hasBeenDone = false; return wo;}),
+        exerciseDone :  workoutChosenR.map((wo, index) => {
+            wo.setsDone = 0;
+            wo.hasBeenDone = false;
+            wo.exerciseIndex = index;
+            return wo;
+        }),
         currentExerciseIndex: 0,
         expiryTimestampRestart: {expiryTimestampRestartR},
         expiryTimestamp: {expiryTimestampR}
@@ -44,18 +57,25 @@ function StartWorkout({expiryTimestamp, workoutChosen, expiryTimestampRestart}) 
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, init(expiryTimestamp, workoutChosen, expiryTimestampRestart));
 
+    useEffect(() => {
+        console.log('StartWorkout -> render with state:');
+        console.log(state);
+    });
+
     function logicForTimerWihExercises() {
-        if( state.currentExerciseIndex < workoutChosen.length) {
-            dispatch ('setExerciseDone');
-        } else {
-            console.warn('You are done');
-        }
+        dispatch ({type: 'increaseNumberOfSetsDoneOfExercise'});
+    }
+
+    function updateCurrentExerciseIndex(exerciseIndex){
+        dispatch ({type: 'updateExerciseChosen', newExerciseIndex: exerciseIndex});
     }
 
     return (
         <Paper className={classes.root}>
             <Container className={classes.myContainer}>
-                <ExerciseListToDo exercisesDone={state.exerciseDone}/>
+                <ExerciseListToDo exercisesDone={state.exerciseDone}
+                                  updateCurrentExerciseIndex={updateCurrentExerciseIndex}
+                                  currentExerciseIndex={state.currentExerciseIndex}/>
                 <MyTimer expiryTimestamp={expiryTimestamp}
                          exercisesDone={state.exerciseDone}
                          expiryTimestampRestart={30}
